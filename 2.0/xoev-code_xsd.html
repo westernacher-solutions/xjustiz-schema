@@ -1,0 +1,958 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for xoev-code.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_xoev-code.xsd', 
+				'properties_Code_code', 
+				'properties_Code_name', 
+				'properties_Code_listURI', 
+				'properties_Code_listVersionID');
+var usedByBoxes= new Array('usedBy_Code', 
+				'usedBy_Code_listURI', 
+				'usedBy_Code_listVersionID');
+var sourceBoxes= new Array('source_Code_code', 
+				'source_Code_name', 
+				'source_Code', 
+				'source_Code_listURI', 
+				'source_Code_listVersionID');
+var diagramBoxes= new Array('diagram_Code_code', 
+				'diagram_Code_name', 
+				'diagram_Code');
+var annotationBoxes= new Array('annotations_Code_code', 
+				'annotations_Code_name', 
+				'annotations_Code', 
+				'annotations_Code_listURI', 
+				'annotations_Code_listVersionID');
+var attributesBoxes= new Array('attributes_Code');
+var modelBoxes= new Array('model_Code');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="xoev-code.xsd"></a><div class="componentTitle">Imported schema <span class="qname">xoev-code.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://xoev.de/schemata/code/1_0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_xoev-code.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_xoev-code.xsd');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_xoev-code.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">attribute form default</td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">element form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">version</td>
+                                    <td><b>1.0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Code_code"></a><div class="componentTitle">Element <span class="qname"><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b> / code</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Code_code" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Code_code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Code_code" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">In diesem XML-Element wird der Code einer Codeliste übermittelt.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Code_code" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Code_code');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Code_code" style="display:block"><object border="0" data="img/xoev-code_xsd_Element_code.svg" type="image/svg+xml"></object></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:token</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Code_code" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Code_code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Code_code" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Code_code" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Code_code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Code_code" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"code"</span><span class="tAN"> type=</span><span class="tAV">"xs:token"</span><span class="tAN"> form=</span><span class="tAV">"unqualified"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">In diesem XML-Element wird der Code einer Codeliste übermittelt.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Code_name"></a><div class="componentTitle">Element <span class="qname"><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b> / name</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Code_name" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Code_name');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Code_name" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Mit diesem optionalen XML-Element kann die Beschreibung des Codes, wie in der jeweiligen Beschreibungsspalte der Codeliste vorgegeben, übermittelt werden.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Code_name" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Code_name');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Code_name" style="display:block"><object border="0" data="img/xoev-code_xsd_Element_name.svg" type="image/svg+xml"></object></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:normalizedString</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Code_name" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Code_name');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Code_name" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Code_name" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Code_name');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Code_name" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"name"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> type=</span><span class="tAV">"xs:normalizedString"</span><span class="tAN"> form=</span><span class="tAV">"unqualified"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mit diesem optionalen XML-Element kann die Beschreibung des Codes, wie in der jeweiligen Beschreibungsspalte der Codeliste vorgegeben, übermittelt werden.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Code"></a><div class="componentTitle">Complex Type <span class="qname">xoev-code:Code</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>http://xoev.de/schemata/code/1_0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Code" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Der XÖV-Datentyp Code ermöglicht die Übermittlung von Werten, so genannter Codes, aus vordefinierten Codelisten. Eine Codeliste ist eine Liste von Codes und der Beschreibung ihrer jeweiligen Bedeutung.clRef </span><span class="tI">
+</span><span class="tT"></span><span class="tI">
+</span><span class="tT">Eine entscheidende Eigenschaft des Datentyps ist die Möglichkeit auf differenzierte Weise Bezug zu Codelisten zu nehmen (Code-Typ 1 bis 4).clTypenRef In jedem Fall erlauben die übermittelten Daten eine eindeutige Identifizierung der zugrundeliegenden Codeliste.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_Code');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_Code" style="display:block"><object border="0" data="img/xoev-code_xsd_Complex_Type_xoev-code_Code.svg" type="image/svg+xml"></object></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Code" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Types </td>
+                                    <td><b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Art_Genehmigung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Art_Genehmigung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Art_der_Zahlung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Art_der_Zahlung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Aufgabenkreis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Aufgabenkreis</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Beendigung_der_Betreuung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Beendigung_der_Betreuung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Betreuerauswahl" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Betreuerauswahl</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Einleitung_Betreuung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Einleitung_Betreuung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Empfaengerliste_Betreuung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Empfaengerliste_Betreuung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Entscheidung.Im_laufenden_Verfahren" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Entscheidung.Im_laufenden_Verfahren</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Entscheidung.Ueber_Einrichtung_der_Betreuung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Entscheidung.Ueber_Einrichtung_der_Betreuung</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Geschaeftsanfall" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Geschaeftsanfall</a></b>, <b><a href="xjustiz_1910_cl_betreuungsstatistik_2_0_xsd.html#Code.BESTAT.Veraenderung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1910_cl_betreuungsstatistik_2_0.xsd')">tns:Code.BESTAT.Veraenderung</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Amtstitel_Notar" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Amtstitel_Notar</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Dokumententyp.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Dokumententyp.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.ELRV_Ausnahme_Ab" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.ELRV_Ausnahme_Ab</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Empfangstyp.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Empfangstyp.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Fehlercode" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Fehlercode</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Meldungsart.ZTR" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Meldungsart.ZTR</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Mitteilungstyp.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Mitteilungstyp.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Registerart_Personenstand" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Registerart_Personenstand</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Registrierung.Simulation_Ergebnis.ZTR" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Registrierung.Simulation_Ergebnis.ZTR</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Registrierung.Status.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Registrierung.Status.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Rollenbezeichnung.ZTR" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Rollenbezeichnung.ZTR</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Urkunde.Status.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Urkunde.Status.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Urkundentyp.ZTR" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Urkundentyp.ZTR</a></b>, <b><a href="xjustiz_1110_cl_bnotk_2_0_xsd.html#Code.BNOTK.Vorgangsart.ZTR.BW.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1110_cl_bnotk_2_0.xsd')">tns:Code.BNOTK.Vorgangsart.ZTR.BW.Typ3</a></b>, <b><a href="xjustiz_2710_cl_eakte_2_0_xsd.html#Code.EAKTE.Aktentyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2710_cl_eakte_2_0.xsd')">tns:Code.EAKTE.Aktentyp</a></b>, <b><a href="xjustiz_2710_cl_eakte_2_0_xsd.html#Code.EAKTE.Dokumenttyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2710_cl_eakte_2_0.xsd')">tns:Code.EAKTE.Dokumenttyp</a></b>, <b><a href="xjustiz_2710_cl_eakte_2_0_xsd.html#Code.EAKTE.Vorgangstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2710_cl_eakte_2_0.xsd')">tns:Code.EAKTE.Vorgangstyp</a></b>, <b><a href="xjustiz_2210_cl_eeb_2_0_xsd.html#Code.EEB.Stoerungs_ID" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2210_cl_eeb_2_0.xsd')">tns:Code.EEB.Stoerungs_ID</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.Beteiligte_BfJ" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.Beteiligte_BfJ</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.Gegenstand" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.Gegenstand</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.InfO_BfJ" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.InfO_BfJ</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.Post_ZU" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.Post_ZU</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.Typ4" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.Typ4</a></b>, <b><a href="xjustiz_2110_cl_ehug_2_0_xsd.html#Code.EHUG.eBanz_Meldung_BfJ" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2110_cl_ehug_2_0.xsd')">tns:Code.EHUG.eBanz_Meldung_BfJ</a></b>, <b><a href="xjustiz_2410_cl_ezoll_2_0_xsd.html#Code.EZOLL.Ereignis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2410_cl_ezoll_2_0.xsd')">tns:Code.EZOLL.Ereignis</a></b>, <b><a href="xjustiz_2410_cl_ezoll_2_0_xsd.html#Code.EZOLL.Forderung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2410_cl_ezoll_2_0.xsd')">tns:Code.EZOLL.Forderung</a></b>, <b><a href="xjustiz_2410_cl_ezoll_2_0_xsd.html#Code.EZOLL.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2410_cl_ezoll_2_0.xsd')">tns:Code.EZOLL.Rollenbezeichnung</a></b>, <b><a href="xjustiz_2810_cl_ezu_2_0_xsd.html#Code.EZU.Eigenschaft_Zusteller" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2810_cl_ezu_2_0.xsd')">tns:Code.EZU.Eigenschaft_Zusteller</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Anspruchsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Anspruchsart</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Betragsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Betragsart</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Familienart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Familienart</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Gegenstandsbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Gegenstandsbezeichnung</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Rollenbezeichnung</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Verfahrensart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Verfahrensart</a></b>, <b><a href="xjustiz_0210_cl_familie_2_0_xsd.html#Code.FAM.Vermoegenstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0210_cl_familie_2_0.xsd')">tns:Code.FAM.Vermoegenstyp</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Anrede.PV" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Anrede.PV</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Anrede.Partei" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Anrede.Partei</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Anschriftstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Anschriftstyp</a></b>, <b><a href="xjustiz_0090_cl_bnotk_2_0_xsd.html#Code.GDS.BNotK.Bereiche" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0090_cl_bnotk_2_0.xsd')">tns:Code.GDS.BNotK.Bereiche</a></b>, <b><a href="xjustiz_0090_cl_bnotk_2_0_xsd.html#Code.GDS.BNotK.Ereignisse" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0090_cl_bnotk_2_0.xsd')">tns:Code.GDS.BNotK.Ereignisse</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Dateiformat" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Dateiformat</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Ereignis.Aktenzeichenmitteilung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Ereignis.Aktenzeichenmitteilung</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Ereignis.Anwaltsmitteilung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Ereignis.Anwaltsmitteilung</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Ereignis.Termin" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Ereignis.Termin</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Familienstand" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Familienstand</a></b>, <b><a href="xjustiz_0020_cl_gerichte_2_0_xsd.html#Code.GDS.Gerichte" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0020_cl_gerichte_2_0.xsd')">tns:Code.GDS.Gerichte</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Geschlecht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Geschlecht</a></b>, <b><a href="xjustiz_0070_cl_justizvollzugsanstalt_2_0_xsd.html#Code.GDS.Justizvollzug" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0070_cl_justizvollzugsanstalt_2_0.xsd')">tns:Code.GDS.Justizvollzug</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Kanzleiform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Kanzleiform</a></b>, <b><a href="xjustiz_0095_cl_personalstatut_2_0_xsd.html#Code.GDS.Personalstatut" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0095_cl_personalstatut_2_0.xsd')">tns:Code.GDS.Personalstatut</a></b>, <b><a href="xjustiz_0030_cl_rechtsform_2_0_xsd.html#Code.GDS.Rechtsform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0030_cl_rechtsform_2_0.xsd')">tns:Code.GDS.Rechtsform</a></b>, <b><a href="xjustiz_0080_cl_registerzeichen_2_0_xsd.html#Code.GDS.Registerzeichen" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0080_cl_registerzeichen_2_0.xsd')">tns:Code.GDS.Registerzeichen</a></b>, <b><a href="xjustiz_0040_cl_rollenbezeichnung_2_0_xsd.html#Code.GDS.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0040_cl_rollenbezeichnung_2_0.xsd')">tns:Code.GDS.Rollenbezeichnung</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Sachgebiet" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Sachgebiet</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Sendungsinhalt" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Sendungsinhalt</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Sprachen" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Sprachen</a></b>, <b><a href="xjustiz_0050_cl_staaten_2_0_xsd.html#Code.GDS.Staaten" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0050_cl_staaten_2_0.xsd')">tns:Code.GDS.Staaten</a></b>, <b><a href="xjustiz_0060_cl_telekommunikation_2_0_xsd.html#Code.GDS.Telekommunikationsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0060_cl_telekommunikation_2_0.xsd')">tns:Code.GDS.Telekommunikationsart</a></b>, <b><a href="xjustiz_0060_cl_telekommunikation_2_0_xsd.html#Code.GDS.Telekommunikationszusatz" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0060_cl_telekommunikation_2_0.xsd')">tns:Code.GDS.Telekommunikationszusatz</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Terminsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Terminsart</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Typ4" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Typ4</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Waehrung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Waehrung</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Zinsberechnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Zinsberechnung</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Zinsmerkmal" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Zinsmerkmal</a></b>, <b><a href="xjustiz_0010_cl_allgemein_2_0_xsd.html#Code.GDS.Zuzustellendes_Schriftstueck" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0010_cl_allgemein_2_0.xsd')">tns:Code.GDS.Zuzustellendes_Schriftstueck</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Auszugsart.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Auszugsart.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Belastungsart.AbtII.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Belastungsart.AbtII.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Belastungsart.AbtIII.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Belastungsart.AbtIII.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Berechtigungsverhaeltnis.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Berechtigungsverhaeltnis.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Dokumentart.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Dokumentart.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Ereignis.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Ereignis.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Rang.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Rang.Typ3</a></b>, <b><a href="xjustiz_0720_cl_rollenbezeichnung_grundbuch_2_0_xsd.html#Code.GRBU.Rollenbezeichnung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0720_cl_rollenbezeichnung_grundbuch_2_0.xsd')">tns:Code.GRBU.Rollenbezeichnung.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Veraenderungen.AbtII.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Veraenderungen.AbtII.Typ3</a></b>, <b><a href="xjustiz_0710_cl_grundbuch_2_0_xsd.html#Code.GRBU.Veraenderungen.AbtIII.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0710_cl_grundbuch_2_0.xsd')">tns:Code.GRBU.Veraenderungen.AbtIII.Typ3</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Auftragsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Auftragsart</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Buchungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Buchungsart</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Forderungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Forderungsart</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Rollenbezeichnung</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Titelart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Titelart</a></b>, <b><a href="xjustiz_2510_cl_gerichtsvollzieher_2_0_xsd.html#Code.GVZ.Zinsmethode" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2510_cl_gerichtsvollzieher_2_0.xsd')">tns:Code.GVZ.Zinsmethode</a></b>, <b><a href="xjustiz_0310_cl_insolvenz_grund_2_0_xsd.html#Code.INSO.Anschriftstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0310_cl_insolvenz_grund_2_0.xsd')">tns:Code.INSO.Anschriftstyp</a></b>, <b><a href="xjustiz_0330_cl_nachrichten_2_0_xsd.html#Code.INSO.Ereignis.Typ4" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0330_cl_nachrichten_2_0.xsd')">tns:Code.INSO.Ereignis.Typ4</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Erklaerungstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Erklaerungstyp</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Forderungsteil" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Forderungsteil</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Insolvenzraenge" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Insolvenzraenge</a></b>, <b><a href="xjustiz_0310_cl_insolvenz_grund_2_0_xsd.html#Code.INSO.Rechtsform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0310_cl_insolvenz_grund_2_0.xsd')">tns:Code.INSO.Rechtsform</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Registerart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Registerart</a></b>, <b><a href="xjustiz_0310_cl_insolvenz_grund_2_0_xsd.html#Code.INSO.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0310_cl_insolvenz_grund_2_0.xsd')">tns:Code.INSO.Rollenbezeichnung</a></b>, <b><a href="xjustiz_0330_cl_nachrichten_2_0_xsd.html#Code.INSO.Rollenbezeichnung.Nachricht.Insolvenztabelle.Uebergabe" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0330_cl_nachrichten_2_0.xsd')">tns:Code.INSO.Rollenbezeichnung.Nachricht.Insolvenztabelle.Uebergabe</a></b>, <b><a href="xjustiz_0330_cl_nachrichten_2_0_xsd.html#Code.INSO.Rollenbezeichnung.Weitere_Beteiligte" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0330_cl_nachrichten_2_0.xsd')">tns:Code.INSO.Rollenbezeichnung.Weitere_Beteiligte</a></b>, <b><a href="xjustiz_0310_cl_insolvenz_grund_2_0_xsd.html#Code.INSO.Telekommunikationsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0310_cl_insolvenz_grund_2_0.xsd')">tns:Code.INSO.Telekommunikationsart</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Uebertragungsweg" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Uebertragungsweg</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Veroeffentlichungsgegenstand" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Veroeffentlichungsgegenstand</a></b>, <b><a href="xjustiz_0320_cl_insolvenz_2_0_xsd.html#Code.INSO.Zustellungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0320_cl_insolvenz_2_0.xsd')">tns:Code.INSO.Zustellungsart</a></b>, <b><a href="xjustiz_2010_cl_kasse_2_0_xsd.html#Code.KASSE.Lastschrifttyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2010_cl_kasse_2_0.xsd')">tns:Code.KASSE.Lastschrifttyp</a></b>, <b><a href="xjustiz_0610_cl_mahn_2_0_xsd.html#Code.MAHN.Ereignis.Uebergabe" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0610_cl_mahn_2_0.xsd')">tns:Code.MAHN.Ereignis.Uebergabe</a></b>, <b><a href="xjustiz_0610_cl_mahn_2_0_xsd.html#Code.MAHN.Kostenbefreiung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0610_cl_mahn_2_0.xsd')">tns:Code.MAHN.Kostenbefreiung</a></b>, <b><a href="xjustiz_0610_cl_mahn_2_0_xsd.html#Code.MAHN.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0610_cl_mahn_2_0.xsd')">tns:Code.MAHN.Rollenbezeichnung</a></b>, <b><a href="xjustiz_0610_cl_mahn_2_0_xsd.html#Code.MAHN.Sachgebiet" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0610_cl_mahn_2_0.xsd')">tns:Code.MAHN.Sachgebiet</a></b>, <b><a href="xjustiz_0610_cl_mahn_2_0_xsd.html#Code.MAHN.Widerspruchsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0610_cl_mahn_2_0.xsd')">tns:Code.MAHN.Widerspruchsart</a></b>, <b><a href="xjustiz_0420_cl_vertretung_register_2_0_xsd.html#Code.REG.Allgemeine_Befreiung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0420_cl_vertretung_register_2_0.xsd')">tns:Code.REG.Allgemeine_Befreiung.Typ3</a></b>, <b><a href="xjustiz_0420_cl_vertretung_register_2_0_xsd.html#Code.REG.Allgemeine_Vertretungsregelung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0420_cl_vertretung_register_2_0.xsd')">tns:Code.REG.Allgemeine_Vertretungsregelung.Typ3</a></b>, <b><a href="xjustiz_0420_cl_vertretung_register_2_0_xsd.html#Code.REG.Besondere_Befreiung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0420_cl_vertretung_register_2_0.xsd')">tns:Code.REG.Besondere_Befreiung.Typ3</a></b>, <b><a href="xjustiz_0420_cl_vertretung_register_2_0_xsd.html#Code.REG.Besondere_Vertretungsregelung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0420_cl_vertretung_register_2_0.xsd')">tns:Code.REG.Besondere_Vertretungsregelung.Typ3</a></b>, <b><a href="xjustiz_0410_cl_register_2_0_xsd.html#Code.REG.Dokumentart.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0410_cl_register_2_0.xsd')">tns:Code.REG.Dokumentart.Typ3</a></b>, <b><a href="xjustiz_0410_cl_register_2_0_xsd.html#Code.REG.Dokumentstatus.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0410_cl_register_2_0.xsd')">tns:Code.REG.Dokumentstatus.Typ3</a></b>, <b><a href="xjustiz_0410_cl_register_2_0_xsd.html#Code.REG.Eintragungsart.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0410_cl_register_2_0.xsd')">tns:Code.REG.Eintragungsart.Typ3</a></b>, <b><a href="xjustiz_0410_cl_register_2_0_xsd.html#Code.REG.Mitteilungsart.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0410_cl_register_2_0.xsd')">tns:Code.REG.Mitteilungsart.Typ3</a></b>, <b><a href="xjustiz_0430_cl_rechtsform_register_2_0_xsd.html#Code.REG.Rechtsform.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0430_cl_rechtsform_register_2_0.xsd')">tns:Code.REG.Rechtsform.Typ3</a></b>, <b><a href="xjustiz_0440_cl_rollenbezeichnung_register_2_0_xsd.html#Code.REG.Rollenbezeichnung.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0440_cl_rollenbezeichnung_register_2_0.xsd')">tns:Code.REG.Rollenbezeichnung.Typ3</a></b>, <b><a href="xjustiz_0420_cl_vertretung_register_2_0_xsd.html#Code.REG.Sachliche_Erweiterung_Prokura.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0420_cl_vertretung_register_2_0.xsd')">tns:Code.REG.Sachliche_Erweiterung_Prokura.Typ3</a></b>, <b><a href="xjustiz_0410_cl_register_2_0_xsd.html#Code.REG.Status_Rechtstraeger.Typ3" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0410_cl_register_2_0.xsd')">tns:Code.REG.Status_Rechtstraeger.Typ3</a></b>, <b><a href="xjustiz_1610_cl_smallclaims_2_0_xsd.html#Code.SC.Ereignis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1610_cl_smallclaims_2_0.xsd')">tns:Code.SC.Ereignis</a></b>, <b><a href="xjustiz_1610_cl_smallclaims_2_0_xsd.html#Code.SC.Gerichtliche_Zustaendigkeit" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1610_cl_smallclaims_2_0.xsd')">tns:Code.SC.Gerichtliche_Zustaendigkeit</a></b>, <b><a href="xjustiz_1610_cl_smallclaims_2_0_xsd.html#Code.SC.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1610_cl_smallclaims_2_0.xsd')">tns:Code.SC.Rollenbezeichnung</a></b>, <b><a href="xjustiz_1610_cl_smallclaims_2_0_xsd.html#Code.SC.Zahlungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1610_cl_smallclaims_2_0.xsd')">tns:Code.SC.Zahlungsart</a></b>, <b><a href="xjustiz_1810_cl_sgdrv_2_0_xsd.html#Code.SGDRV.RVTraeger" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1810_cl_sgdrv_2_0.xsd')">tns:Code.SGDRV.RVTraeger</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Abwesenheitsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Abwesenheitsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Angewandte_Vorschrift" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Angewandte_Vorschrift</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Anordnungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Anordnungsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Besuchserlaubnisart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Besuchserlaubnisart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Beteiligungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Beteiligungsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Beweismittel" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Beweismittel</a></b>, <b><a href="xjustiz_0550_cl_nachrichten_2_0_xsd.html#Code.STRAF.Ereignis.Ermittlungs_Erkenntnisverfahren" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0550_cl_nachrichten_2_0.xsd')">tns:Code.STRAF.Ereignis.Ermittlungs_Erkenntnisverfahren</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Ergebnisart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Ergebnisart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Fahndungsanlass" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Fahndungsanlass</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Fahndungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Fahndungsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Fahndungsverfahren" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Fahndungsverfahren</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Fahndungszweck" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Fahndungszweck</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Fahrerlaubnisart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Fahrerlaubnisart</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Fahrzeugantrieb" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Fahrzeugantrieb</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Fahrzeugart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Fahrzeugart</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Fahrzeugunterart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Fahrzeugunterart</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Fuehrerscheinklasse" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Fuehrerscheinklasse</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Gegenstandsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Gegenstandsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Geldanordnungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Geldanordnungsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Haftart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Haftart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Haftbeginn" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Haftbeginn</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Haftzeitendeart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Haftzeitendeart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Herkunftsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Herkunftsart</a></b>, <b><a href="xjustiz_0540_cl_kfzkennzeichen_2_0_xsd.html#Code.STRAF.KFZ_Kennzeichen" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0540_cl_kfzkennzeichen_2_0.xsd')">tns:Code.STRAF.KFZ_Kennzeichen</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Legitimationsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Legitimationsart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Listenart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Listenart</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Loeschungsgrund" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Loeschungsgrund</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Personenbezug" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Personenbezug</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Pruefvorschrift" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Pruefvorschrift</a></b>, <b><a href="xjustiz_0550_cl_nachrichten_2_0_xsd.html#Code.STRAF.Registerzeichen.Gericht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0550_cl_nachrichten_2_0.xsd')">tns:Code.STRAF.Registerzeichen.Gericht</a></b>, <b><a href="xjustiz_0550_cl_nachrichten_2_0_xsd.html#Code.STRAF.Registerzeichen.StA" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0550_cl_nachrichten_2_0.xsd')">tns:Code.STRAF.Registerzeichen.StA</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Rollenbezeichnung</a></b>, <b><a href="xjustiz_0550_cl_nachrichten_2_0_xsd.html#Code.STRAF.Sachgebiet" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0550_cl_nachrichten_2_0.xsd')">tns:Code.STRAF.Sachgebiet</a></b>, <b><a href="xjustiz_0550_cl_nachrichten_2_0_xsd.html#Code.STRAF.Sachgebiet.StVK" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0550_cl_nachrichten_2_0.xsd')">tns:Code.STRAF.Sachgebiet.StVK</a></b>, <b><a href="xjustiz_0530_cl_instanzwerte_2_0_xsd.html#Code.STRAF.Sachgebietsschluessel" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0530_cl_instanzwerte_2_0.xsd')">tns:Code.STRAF.Sachgebietsschluessel</a></b>, <b><a href="xjustiz_0520_cl_personenwerte_2_0_xsd.html#Code.STRAF.Strafverfolgungshindernis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0520_cl_personenwerte_2_0.xsd')">tns:Code.STRAF.Strafverfolgungshindernis</a></b>, <b><a href="xjustiz_0510_cl_straf_2_0_xsd.html#Code.STRAF.Verbleibsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0510_cl_straf_2_0.xsd')">tns:Code.STRAF.Verbleibsart</a></b>, <b><a href="xjustiz_0530_cl_instanzwerte_2_0_xsd.html#Code.STRAF.Zaehlkartenkennziffer" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0530_cl_instanzwerte_2_0.xsd')">tns:Code.STRAF.Zaehlkartenkennziffer</a></b>, <b><a href="xjustiz_0530_cl_instanzwerte_2_0_xsd.html#Code.STRAF.Zusatzkennzeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0530_cl_instanzwerte_2_0.xsd')">tns:Code.STRAF.Zusatzkennzeichnung</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ausgleich" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ausgleich</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Bezugsgroesse" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Bezugsgroesse</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Auskunft" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Auskunft</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Auskunftsersuchen" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Auskunftsersuchen</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Empfangsbestaetigung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Empfangsbestaetigung</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Fehler" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Fehler</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Gerichtliche_Entscheidung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Gerichtliche_Entscheidung</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Kurzmitteilung.Gericht_zu_Versorgungstraeger" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Kurzmitteilung.Gericht_zu_Versorgungstraeger</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Kurzmitteilung.Versorgungstraeger_zu_Gericht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Kurzmitteilung.Versorgungstraeger_zu_Gericht</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Ereignis.Rechtskraftmitteilung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Ereignis.Rechtskraftmitteilung</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Fehler" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Fehler</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Leistungsform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Leistungsform</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Sachstandsmitteilung.Kurzmitteilung.Versorgungstraeger_zu_Gericht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Sachstandsmitteilung.Kurzmitteilung.Versorgungstraeger_zu_Gericht</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Teilungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Teilungsart</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Teilungsart.Entscheidung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Teilungsart.Entscheidung</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Versorgungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Versorgungsart</a></b>, <b><a href="xjustiz_0240_cl_versorgungsauskunft_2_0_xsd.html#Code.VAG.Zinsende" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0240_cl_versorgungsauskunft_2_0.xsd')">tns:Code.VAG.Zinsende</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Eintragungsgruende.Gerichtsvollzieher_Vollstreckungsbehoerde" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Eintragungsgruende.Gerichtsvollzieher_Vollstreckungsbehoerde</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Eintragungsgruende.Insolvenzgericht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Eintragungsgruende.Insolvenzgericht</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Entscheidungsinhalt_Schuldnerwiderspruch" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Entscheidungsinhalt_Schuldnerwiderspruch</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Ereignis.Zentrales_Vollstreckungsgericht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Ereignis.Zentrales_Vollstreckungsgericht</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Gerichtsvollzieher_Dienstbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Gerichtsvollzieher_Dienstbezeichnung</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Korrektur_Loeschung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Korrektur_Loeschung</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Registerart_Mobiliarvollstreckung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Registerart_Mobiliarvollstreckung</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Rollenbezeichnung.Schuldnerverzeichnis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Rollenbezeichnung.Schuldnerverzeichnis</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Schuldnerverzeichnis_Loeschungsgruende" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Schuldnerverzeichnis_Loeschungsgruende</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Verarbeitungsergebnis_Schuldnerverzeichnis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Verarbeitungsergebnis_Schuldnerverzeichnis</a></b>, <b><a href="xjustiz_0910_cl_vollstreckung_2_0_xsd.html#Code.VSTR.Vermoegensverzeichnis_Art" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_0910_cl_vollstreckung_2_0.xsd')">tns:Code.VSTR.Vermoegensverzeichnis_Art</a></b>, <b><a href="xjustiz_1510_cl_zpo_fremdauskunft_2_0_xsd.html#Code.ZPO.Anfragetyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1510_cl_zpo_fremdauskunft_2_0.xsd')">tns:Code.ZPO.Anfragetyp</a></b>, <b><a href="xjustiz_1510_cl_zpo_fremdauskunft_2_0_xsd.html#Code.ZPO.Ereignis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1510_cl_zpo_fremdauskunft_2_0.xsd')">tns:Code.ZPO.Ereignis</a></b>, <b><a href="xjustiz_1510_cl_zpo_fremdauskunft_2_0_xsd.html#Code.ZPO.Fehlercode" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1510_cl_zpo_fremdauskunft_2_0.xsd')">tns:Code.ZPO.Fehlercode</a></b>, <b><a href="xjustiz_1510_cl_zpo_fremdauskunft_2_0_xsd.html#Code.ZPO.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1510_cl_zpo_fremdauskunft_2_0.xsd')">tns:Code.ZPO.Rollenbezeichnung</a></b>, <b><a href="xjustiz_2310_cl_zssr_2_0_xsd.html#Code.ZSSR.Anschriftstyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2310_cl_zssr_2_0.xsd')">tns:Code.ZSSR.Anschriftstyp</a></b>, <b><a href="xjustiz_2310_cl_zssr_2_0_xsd.html#Code.ZSSR.Dokumenttyp" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2310_cl_zssr_2_0.xsd')">tns:Code.ZSSR.Dokumenttyp</a></b>, <b><a href="xjustiz_2310_cl_zssr_2_0_xsd.html#Code.ZSSR.Fehler" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2310_cl_zssr_2_0.xsd')">tns:Code.ZSSR.Fehler</a></b>, <b><a href="xjustiz_2310_cl_zssr_2_0_xsd.html#Code.ZSSR.Rollenbezeichnung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2310_cl_zssr_2_0.xsd')">tns:Code.ZSSR.Rollenbezeichnung</a></b>, <b><a href="xjustiz_2310_cl_zssr_2_0_xsd.html#Code.ZSSR.Typ4" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2310_cl_zssr_2_0.xsd')">tns:Code.ZSSR.Typ4</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Anspruch_gesetzlich" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Anspruch_gesetzlich</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Anspruch_mit_Geldsumme" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Anspruch_mit_Geldsumme</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Antragsziel" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Antragsziel</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Objekt" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Objekt</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Oeffentliche_Lasten" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Oeffentliche_Lasten</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Rangklasse" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Rangklasse</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Titelart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Titelart</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Versteigerungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Versteigerungsart</a></b>, <b><a href="xjustiz_1410_cl_zwangsversteigerung_2_0_xsd.html#Code.ZVG.Verzinsliche_Kosten" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1410_cl_zwangsversteigerung_2_0.xsd')">tns:Code.ZVG.Verzinsliche_Kosten</a></b>, <b><a href="xjustiz_1010_cl_vorsorgeregister_2_0_xsd.html#Code.ZVR.Eintragungsart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1010_cl_vorsorgeregister_2_0.xsd')">tns:Code.ZVR.Eintragungsart</a></b>, <b><a href="xjustiz_1010_cl_vorsorgeregister_2_0_xsd.html#Code.ZVR.Rollenbezeichnung_Vollmachten" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1010_cl_vorsorgeregister_2_0.xsd')">tns:Code.ZVR.Rollenbezeichnung_Vollmachten</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Altersstufen_Unterhalt" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Altersstufen_Unterhalt</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Anlage" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Anlage</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Anteil_Hauptforderung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Anteil_Hauptforderung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Antrag_Zustellung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Antrag_Zustellung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Art_Kostenforderung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Art_Kostenforderung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Auszahlungskonto" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Auszahlungskonto</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Dynamischer_Zinssatz_Erhoehung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Dynamischer_Zinssatz_Erhoehung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Entscheidungsumfang_PfUEB" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Entscheidungsumfang_PfUEB</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Ereignis" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Ereignis</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Familienstand" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Familienstand</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Kindergeldstufe" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Kindergeldstufe</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Registerart_Mobiliarvollstreckung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Registerart_Mobiliarvollstreckung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Titelart" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Titelart</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Zahlungsintervall" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Zahlungsintervall</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Zeitraum_Unterhaltsforderung" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Zeitraum_Unterhaltsforderung</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.Zu_beruecksichtigende_Kinder" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.Zu_beruecksichtigende_Kinder</a></b>, <b><a href="xjustiz_2610_cl_zwangsvollstreckung_2_0_xsd.html#Code.ZVSTR.nicht_beruecksichtigter_Unterhaltsberechtigter" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2610_cl_zwangsvollstreckung_2_0.xsd')">tns:Code.ZVSTR.nicht_beruecksichtigter_Unterhaltsberechtigter</a></b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="xjustiz_2800_ezu_2_0_xsd.html#Type.EZU.Grunddaten_Type.EZU.Grunddaten_verfahrensdaten_Type.EZU.Grunddaten_Type.EZU.Grunddaten_verfahrensdaten_instanzdaten_sachgebiet" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2800_ezu_2_0.xsd')">tns:Type.EZU.Grunddaten/tns:verfahrensdaten/tns:instanzdaten/tns:sachgebiet</a></b>, <b><a href="xjustiz_2300_zssr_2_0_xsd.html#Type.ZSSR.Organisation_rechtsform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2300_zssr_2_0.xsd')">tns:Type.ZSSR.Organisation/tns:rechtsform</a></b>, <b><a href="xjustiz_2300_zssr_2_0_xsd.html#Type.ZSSR.Organisation_Antragssteller_rechtsform" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2300_zssr_2_0.xsd')">tns:Type.ZSSR.Organisation_Antragssteller/tns:rechtsform</a></b>, <b><a href="xjustiz_2300_zssr_2_0_xsd.html#Type.ZSSR.Organisation_Antragssteller_Type.ZSSR.Organisation_Antragssteller_sitz_staat" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2300_zssr_2_0.xsd')">tns:Type.ZSSR.Organisation_Antragssteller/tns:sitz/tns:staat</a></b>, <b><a href="xjustiz_2300_zssr_2_0_xsd.html#nachricht.zssr.mitteilung_einschlaegig.2300004_nachricht.zssr.mitteilung_einschlaegig.2300004_grunddaten_nachricht.zssr.mitteilung_einschlaegig.2300004_nachricht.zssr.mitteilung_einschlaegig.2300004_grunddaten_verfahrensdaten_nachricht.zssr.mitteilung_einschlaegig.2300004_nachricht.zssr.mitteilung_einschlaegig.2300004_grunddaten_nachricht.zssr.mitteilung_einschlaegig.2300004_nachricht.zssr.mitteilung_einschlaegig.2300004_grunddaten_verfahrensdaten_instanzdaten_sachgebiet" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_2300_zssr_2_0.xsd')">tns:nachricht.zssr.mitteilung_einschlaegig.2300004/tns:grunddaten/tns:verfahrensdaten/tns:instanzdaten/tns:sachgebiet</a></b>, <b><a href="xjustiz_1400_zwangsversteigerung_2_0_xsd.html#nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_betrag_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_betrag_oeffentliche_Lasten_eintrag" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1400_zwangsversteigerung_2_0.xsd')">tns:nachricht.zvg.zwangsversteigerungsantrag.1400001/tns:fachdaten/tns:auswahl_Anspruch/tns:anspruch_mit_Geldsumme/tns:betrag/tns:oeffentliche_Lasten/tns:eintrag</a></b>, <b><a href="xjustiz_1400_zwangsversteigerung_2_0_xsd.html#nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_dingliches_Recht" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1400_zwangsversteigerung_2_0.xsd')">tns:nachricht.zvg.zwangsversteigerungsantrag.1400001/tns:fachdaten/tns:auswahl_Anspruch/tns:anspruch_mit_Geldsumme/tns:dingliches_Recht</a></b>, <b><a href="xjustiz_1400_zwangsversteigerung_2_0_xsd.html#nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_titel_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_nachricht.zvg.zwangsversteigerungsantrag.1400001_nachricht.zvg.zwangsversteigerungsantrag.1400001_fachdaten_auswahl_Anspruch_anspruch_mit_Geldsumme_titel_auswahl_Instanz_notar" target="mainFrame" title="http://www.xjustiz.de" onclick="updatePageTitle('Schema documentation for xjustiz_1400_zwangsversteigerung_2_0.xsd')">tns:nachricht.zvg.zwangsversteigerungsantrag.1400001/tns:fachdaten/tns:auswahl_Anspruch/tns:anspruch_mit_Geldsumme/tns:titel/tns:auswahl_Instanz/tns:notar</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('model_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_Code" style="display:block"><b><a href="xoev-code_xsd.html#Code_code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">code</a></b> , <b><a href="xoev-code_xsd.html#Code_name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">name{0,1}</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="xoev-code_xsd.html#Code_code" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">code</a></b>, <b><a href="xoev-code_xsd.html#Code_name" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">name</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_Code" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xoev-code_xsd.html#Code_listURI" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">listURI</a></b></td>
+                                    <td><b>xs:anyURI</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Mit diesem XML-Attribut wird die Kennung der Codeliste übermittelt, in deren Kontext der jeweilige Code zu interpretieren ist. Die Kennung identifiziert die Codeliste, nicht jedoch deren Version eindeutig.</span><span class="tI">
+</span><span class="tT"></span><span class="tI">
+</span><span class="tT">Wird bereits im Rahmen des XÖV-Standards eine Kennung vorgegeben (es handelt sich in diesem Fall um einen Code-Typ 1, 2 oder 3) darf auf eine nochmalige Angabe der Kennung bei der Übermittlung eines Codes verzichtet werden. Aus diesem Grund ist das XML-Attribut listURI zunächst als optional deklariert.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="xoev-code_xsd.html#Code_listVersionID" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">listVersionID</a></b></td>
+                                    <td><b>xs:normalizedString</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Die konkrete Version der zu nutzenden Codeliste wird mit diesem XML-Attribut übertragen.</span><span class="tI">
+</span><span class="tT"></span><span class="tI">
+</span><span class="tT">Analog zum listURI ist die Bestimmung der Version einer Codeliste bei der Übertragung eines Codes zwingend. Die Version kann jedoch ebenfalls bereits im XÖV-Standard festgelegt werden (es handelt sich in diesem Fall um einen Code-Typ 1 oder 2).</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Code" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Code');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Code" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"Code"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Der XÖV-Datentyp Code ermöglicht die Übermittlung von Werten, so genannter Codes, aus vordefinierten Codelisten. Eine Codeliste ist eine Liste von Codes und der Beschreibung ihrer jeweiligen Bedeutung.clRef Eine entscheidende Eigenschaft des Datentyps ist die Möglichkeit auf differenzierte Weise Bezug zu Codelisten zu nehmen (Code-Typ 1 bis 4).clTypenRef In jedem Fall erlauben die übermittelten Daten eine eindeutige Identifizierung der zugrundeliegenden Codeliste.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"code"</span><span class="tAN"> type=</span><span class="tAV">"xs:token"</span><span class="tAN"> form=</span><span class="tAV">"unqualified"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">In diesem XML-Element wird der Code einer Codeliste übermittelt.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"name"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> type=</span><span class="tAV">"xs:normalizedString"</span><span class="tAN"> form=</span><span class="tAV">"unqualified"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mit diesem optionalen XML-Element kann die Beschreibung des Codes, wie in der jeweiligen Beschreibungsspalte der Codeliste vorgegeben, übermittelt werden.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"listURI"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mit diesem XML-Attribut wird die Kennung der Codeliste übermittelt, in deren Kontext der jeweilige Code zu interpretieren ist. Die Kennung identifiziert die Codeliste, nicht jedoch deren Version eindeutig. Wird bereits im Rahmen des XÖV-Standards eine Kennung vorgegeben (es handelt sich in diesem Fall um einen Code-Typ 1, 2 oder 3) darf auf eine nochmalige Angabe der Kennung bei der Übermittlung eines Codes verzichtet werden. Aus diesem Grund ist das XML-Attribut listURI zunächst als optional deklariert.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"listVersionID"</span><span class="tAN"> type=</span><span class="tAV">"xs:normalizedString"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Die konkrete Version der zu nutzenden Codeliste wird mit diesem XML-Attribut übertragen. Analog zum listURI ist die Bestimmung der Version einer Codeliste bei der Übertragung eines Codes zwingend. Die Version kann jedoch ebenfalls bereits im XÖV-Standard festgelegt werden (es handelt sich in diesem Fall um einen Code-Typ 1 oder 2).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Code_listURI"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b> / @listURI</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Code_listURI" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Code_listURI');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Code_listURI" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Mit diesem XML-Attribut wird die Kennung der Codeliste übermittelt, in deren Kontext der jeweilige Code zu interpretieren ist. Die Kennung identifiziert die Codeliste, nicht jedoch deren Version eindeutig.</span><span class="tI">
+</span><span class="tT"></span><span class="tI">
+</span><span class="tT">Wird bereits im Rahmen des XÖV-Standards eine Kennung vorgegeben (es handelt sich in diesem Fall um einen Code-Typ 1, 2 oder 3) darf auf eine nochmalige Angabe der Kennung bei der Übermittlung eines Codes verzichtet werden. Aus diesem Grund ist das XML-Attribut listURI zunächst als optional deklariert.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:anyURI</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Code_listURI" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Code_listURI');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Code_listURI" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
+                                    <td><b>optional</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Code_listURI" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Code_listURI');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Code_listURI" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Code_listURI" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Code_listURI');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Code_listURI" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"listURI"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mit diesem XML-Attribut wird die Kennung der Codeliste übermittelt, in deren Kontext der jeweilige Code zu interpretieren ist. Die Kennung identifiziert die Codeliste, nicht jedoch deren Version eindeutig. Wird bereits im Rahmen des XÖV-Standards eine Kennung vorgegeben (es handelt sich in diesem Fall um einen Code-Typ 1, 2 oder 3) darf auf eine nochmalige Angabe der Kennung bei der Übermittlung eines Codes verzichtet werden. Aus diesem Grund ist das XML-Attribut listURI zunächst als optional deklariert.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="Code_listVersionID"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b> / @listVersionID</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_Code_listVersionID" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_Code_listVersionID');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_Code_listVersionID" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Die konkrete Version der zu nutzenden Codeliste wird mit diesem XML-Attribut übertragen.</span><span class="tI">
+</span><span class="tT"></span><span class="tI">
+</span><span class="tT">Analog zum listURI ist die Bestimmung der Version einer Codeliste bei der Übertragung eines Codes zwingend. Die Version kann jedoch ebenfalls bereits im XÖV-Standard festgelegt werden (es handelt sich in diesem Fall um einen Code-Typ 1 oder 2).</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:normalizedString</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Code_listVersionID" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_Code_listVersionID');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Code_listVersionID" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
+                                    <td><b>optional</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_Code_listVersionID" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_Code_listVersionID');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_Code_listVersionID" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Complex Type </td>
+                                    <td><b><a href="xoev-code_xsd.html#Code" target="mainFrame" title="http://xoev.de/schemata/code/1_0" onclick="updatePageTitle('Schema documentation for xoev-code.xsd')">xoev-code:Code</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_Code_listVersionID" type="image" src="img/btM.gif" value="-" onclick="switchState('source_Code_listVersionID');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_Code_listVersionID" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"listVersionID"</span><span class="tAN"> type=</span><span class="tAV">"xs:normalizedString"</span><span class="tAN"> use=</span><span class="tAV">"optional"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Die konkrete Version der zu nutzenden Codeliste wird mit diesem XML-Attribut übertragen. Analog zum listURI ist die Bestimmung der Version einer Codeliste bei der Übertragung eines Codes zwingend. Die Version kann jedoch ebenfalls bereits im XÖV-Standard festgelegt werden (es handelt sich in diesem Fall um einen Code-Typ 1 oder 2).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Developer.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
